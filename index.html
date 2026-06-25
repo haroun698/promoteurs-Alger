@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Suivi promoteurs · Alger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C2421; --teal:#0F6E66; --teal-d:#0A4F49; --teal-soft:#E4F1EF;
+  --sand:#E2A33C; --sand-soft:#FBEFD8; --no:#F7D9C6; --no-line:#E2895E;
+  --paper:#F6F4EF; --card:#FFFFFF; --line:#E5E2DB; --mut:#6E7C7A; --text:#162E2B;
+  --ok:#1E8A5A; --ok-soft:#D9F0E3;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{
+  font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--paper);
+  padding-bottom:40px;
+}
+.disp{font-family:'Space Grotesk','Inter',sans-serif}
+
+/* Masthead */
+header{
+  background:linear-gradient(160deg,var(--teal) 0%,var(--teal-d) 100%);
+  color:#fff;padding:18px 16px calc(14px + env(safe-area-inset-top));
+  padding-top:calc(18px + env(safe-area-inset-top));
+}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:#A9D7D1;font-weight:600}
+h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;
+  margin:4px 0 2px;letter-spacing:-.01em}
+.sub{font-size:12.5px;color:#BFE0DC}
+.bar{margin-top:14px;height:9px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--sand),#F2C879);transition:width .35s ease}
+.barlbl{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px}
+.barlbl b{font-family:'Space Grotesk',sans-serif;font-size:15px}
+.barlbl span{font-size:11.5px;color:#BFE0DC}
+
+/* Toolbar */
+.tools{position:sticky;top:0;z-index:20;background:var(--paper);
+  padding:12px 12px 8px;border-bottom:1px solid var(--line)}
+.search{position:relative}
+.search input{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;
+  padding:12px 14px 12px 40px;font-size:15px;font-family:inherit;color:var(--text)}
+.search input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.5}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--mut);
+  border-radius:99px;padding:7px 13px;font-size:13px;font-weight:600;font-family:inherit;
+  white-space:nowrap}
+.chip .n{opacity:.6;font-weight:600;margin-left:2px}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* List */
+.list{padding:12px 12px 0;display:flex;flex-direction:column;gap:11px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px 14px 12px;box-shadow:0 1px 2px rgba(12,36,33,.04)}
+.card.nophone{background:linear-gradient(0deg,#fff,#fff),var(--no);
+  background-blend-mode:normal;border-color:var(--no-line);
+  box-shadow:inset 4px 0 0 var(--no-line)}
+.card.done{border-color:var(--ok-soft)}
+.top{display:flex;gap:11px;align-items:flex-start}
+.num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:var(--teal-soft);
+  color:var(--teal-d);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;
+  display:flex;align-items:center;justify-content:center}
+.card.nophone .num{background:var(--no);color:#9A4A24}
+.head{flex:1;min-width:0}
+.prom{font-weight:600;font-size:15px;line-height:1.25;letter-spacing:-.005em}
+.proj{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;color:var(--teal);margin-top:2px}
+.check{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:2px solid var(--line);
+  background:#fff;display:flex;align-items:center;justify-content:center;padding:0}
+.check svg{opacity:0;transform:scale(.6);transition:.18s}
+.card.done .check{background:var(--ok);border-color:var(--ok)}
+.card.done .check svg{opacity:1;transform:scale(1)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;margin:9px 0 0;font-size:12.5px;color:var(--mut)}
+.meta b{color:var(--text);font-weight:600}
+.loc{font-size:12px;color:var(--mut);margin-top:7px;line-height:1.4}
+.row2{display:flex;gap:8px;margin-top:11px;align-items:center}
+.tel{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+  text-decoration:none;background:var(--teal);color:#fff;border-radius:11px;
+  padding:11px;font-weight:600;font-size:14px;font-family:inherit}
+.tel.multi{background:var(--teal-d)}
+.notel{flex:1;text-align:center;background:var(--no);color:#9A4A24;border-radius:11px;
+  padding:11px;font-weight:600;font-size:13px}
+.stat{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:11px;
+  padding:11px 13px;font-weight:600;font-size:13px;font-family:inherit;color:var(--text);
+  display:flex;align-items:center;gap:7px;min-width:118px;justify-content:center}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--mut)}
+.note{width:100%;margin-top:10px;border:1px dashed var(--line);border-radius:11px;
+  padding:10px 12px;font-size:13.5px;font-family:inherit;resize:none;color:var(--text);
+  background:#FCFBF8}
+.note:focus{outline:none;border-style:solid;border-color:var(--teal);background:#fff}
+.empty{text-align:center;color:var(--mut);padding:50px 20px;font-size:14px}
+
+footer{padding:22px 16px 8px;text-align:center}
+.reset{border:1px solid var(--line);background:#fff;color:var(--mut);border-radius:10px;
+  padding:9px 16px;font-size:12.5px;font-weight:600;font-family:inherit}
+.foot{font-size:11px;color:#9AA5A3;margin-top:12px;line-height:1.5}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">FGCMPI · Garanties immobilières</div>
+  <h1>Promoteurs — Alger</h1>
+  <div class="sub">Carnet de prospection · appelle, note, coche.</div>
+  <div class="bar"><i id="fill"></i></div>
+  <div class="barlbl"><b id="ptxt">0 / 0 traités</b><span id="pno">— sans numéro</span></div>
+</header>
+
+<div class="tools">
+  <div class="search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input id="q" type="search" placeholder="Rechercher promoteur, daïra, projet…" autocomplete="off">
+  </div>
+  <div class="chips" id="chips">
+    <button class="chip" data-f="all" aria-pressed="true">Tous <span class="n" id="c-all"></span></button>
+    <button class="chip" data-f="phone" aria-pressed="false">Avec tél <span class="n" id="c-phone"></span></button>
+    <button class="chip" data-f="nophone" aria-pressed="false">Sans tél <span class="n" id="c-nophone"></span></button>
+    <button class="chip" data-f="todo" aria-pressed="false">À faire <span class="n" id="c-todo"></span></button>
+    <button class="chip" data-f="done" aria-pressed="false">Faits <span class="n" id="c-done"></span></button>
+  </div>
+</div>
+
+<div class="list" id="list"></div>
+
+<footer>
+  <button class="reset" id="reset">Réinitialiser mon suivi</button>
+  <div class="foot">Tes cases, statuts et notes sont enregistrés sur cet appareil.<br>59 promoteurs · Wilaya d'Alger.</div>
+</footer>
+
+<script>
+const DATA = [{"id": 1, "prom": "EURL PRI MOC", "proj": "139 LOGTS", "date": "16/04/2026", "loc": "Lieu-dit « DJENANE SEFARI », îlot N° 1767, Section 01", "daira": "Djasr Kasentina", "tel": "034 80 27 14"}, {"id": 2, "prom": "SARL SMART SAKAN PROMOTION IMMOBILIERE", "proj": "75 LOGTS", "date": "01/04/2026", "loc": "Lieu-dit Hay La Montagne, lot 22", "daira": "Bourouba", "tel": ""}, {"id": 3, "prom": "SARL IMMO EMB", "proj": "32 LOGTS ET 775,42 M² CCES", "date": "01/04/2026", "loc": "Lieu-dit \"108 Rue Hanfi Hadjres\", Section 40, îlot 84", "daira": "Bachdjerrah", "tel": ""}, {"id": 4, "prom": "EPE SPA SOPRI EL BNAI", "proj": "49 LOGTS", "date": "11/03/2026", "loc": "Lieu-dit Ain Naadja, îlot 358, Section 01", "daira": "Djasr Kasentina", "tel": "023 13 58 14"}, {"id": 5, "prom": "SARL SMART SAKAN PROMOTION IMMOBILIERE", "proj": "23 LOGTS", "date": "22/02/2026", "loc": "Lot A îlot (01/57 et 02/57), lotissement Benyettou", "daira": "Bourouba", "tel": ""}, {"id": 6, "prom": "SARL AMLAK", "proj": "143 LOGTS", "date": "19/02/2026", "loc": "Îlot N° 902, Section 02", "daira": "Ouled Fayet", "tel": ""}, {"id": 7, "prom": "EURL VERT TEC", "proj": "38 LOGTS", "date": "04/01/2026", "loc": "Lieu-dit Ain Naadja Nord, Section 01, îlot 0019", "daira": "Djasr Kasentina", "tel": "021 87 11 67 / 044 07 61 90"}, {"id": 8, "prom": "SARL BBM PROMOTION IMMOBILIERE", "proj": "25 LOGTS", "date": "01/12/2025", "loc": "Section 07, îlot N° 247", "daira": "Souidania", "tel": ""}, {"id": 9, "prom": "HED MESSAOUD AIMAD", "proj": "15 LOGTS", "date": "30/11/2025", "loc": "Îlot N° 1724, Section 02", "daira": "Draria", "tel": "031 59 80 37"}, {"id": 10, "prom": "SARL SMART SAKAN PROMOTION IMMOBILIERE", "proj": "30 LOGTS", "date": "20/11/2025", "loc": "Lieu-dit « BEAU LIEU », îlot N° 415, Section 13", "daira": "El Harrach", "tel": ""}, {"id": 11, "prom": "SPA CONDOR IMMO", "proj": "88 LOGTS", "date": "19/11/2025", "loc": "Lieu-dit « DJNANE SFARI », Section 02, îlot 967", "daira": "Bir Mourad Raïs", "tel": "035 87 63 18"}, {"id": 12, "prom": "EURL PROMOTION IMMOBILIERE REKHILA", "proj": "15 LOGTS ET 440,68 M² CCES", "date": "16/11/2025", "loc": "Lieu-dit « BEN MERAD », Section 03, îlot N° 1976", "daira": "Bordj El Kiffan", "tel": "023 87 31 57"}, {"id": 13, "prom": "MESTOUI DJAMEL", "proj": "14 LOGTS ET 483,51 M² CCES", "date": "05/11/2025", "loc": "Lieu-dit « TOURES », Section 01, îlot N° 1132", "daira": "Bouzareah", "tel": ""}, {"id": 14, "prom": "EURL GHARBI PROMO", "proj": "31 LOGTS", "date": "30/10/2025", "loc": "Îlot N° 127, Section 02", "daira": "Souidania", "tel": ""}, {"id": 15, "prom": "SARL SOPRICAL", "proj": "24 LOGTS", "date": "01/10/2025", "loc": "« ROUKHI », Section 08, îlot 06, commune de Souidania", "daira": "Souidania", "tel": "021 35 48 52"}, {"id": 16, "prom": "MENASRA MOHAMED", "proj": "25 LOGTS ET 421,14 M² CCES", "date": "31/08/2025", "loc": "Lieu-dit « FERME ZAOUI MOHAMED », îlot N° 143, Section 01", "daira": "Draria", "tel": "023 33 05 16"}, {"id": 17, "prom": "AGENCE NATIONALE DE L'AMELIORATION ET DU DEVELOPPEMENT DU LOGEMENT AADL", "proj": "312 LOGTS ET 6 694,75 M² CCES", "date": "10/08/2025", "loc": "Section 2418, îlot N° 01", "daira": "Birkhadem", "tel": "021 44 63 18 / 021 56 10 07 / 038 47 81 77 / 041 27 82 28"}, {"id": 18, "prom": "SARL SIRINE PERLA PROMOTION IMMOBILIERE", "proj": "11 LOGTS", "date": "28/07/2025", "loc": "Bir Khadem, Section 15, îlot 103, commune de Bir Khadem", "daira": "Birkhadem", "tel": ""}, {"id": 19, "prom": "EURL HYPRO PROMOTION IMMOBILIERE", "proj": "12 LOGTS ET 352,35 M² CCES", "date": "09/07/2025", "loc": "Îlot 50, Section 46, lieu-dit Petite Staouali", "daira": "Chéraga", "tel": ""}, {"id": 20, "prom": "SARL SOTRAV", "proj": "32 LOGTS", "date": "19/05/2025", "loc": "Îlot N° 28, Section 02", "daira": "Chéraga", "tel": "029 26 00 36"}, {"id": 21, "prom": "SARL PROMOTION IMMOBILIERE HANA PRO", "proj": "45 LOGTS", "date": "18/05/2025", "loc": "N° 126 Rue Ali Ramli", "daira": "Bouzareah", "tel": "021 92 60 62"}, {"id": 22, "prom": "EURL FMABS", "proj": "18 LOGTS ET 158,08 M² CCES", "date": "14/05/2025", "loc": "Lieu-dit « N° 10, Rue des Frères Bekkiri », Section 03, îlot N° 100", "daira": "El Harrach", "tel": ""}, {"id": 23, "prom": "SARL ERPIH", "proj": "75 LOGTS", "date": "11/05/2025", "loc": "Lieu-dit « AIN NAADJA NORD », Section 01, îlot N° 1106", "daira": "Djasr Kasentina", "tel": "024 91 18 46 / 024 91 27 30"}, {"id": 24, "prom": "SARL MECADIM CONSTRUCTION ET COMMERCE", "proj": "13 LOGTS", "date": "06/05/2025", "loc": "Lieu-dit « HAI AIN NAADJA », Section 01, îlot N° 349", "daira": "Djasr Kasentina", "tel": ""}, {"id": 25, "prom": "BOUSLIMANI SAKINA", "proj": "31 LOGTS ET 347,00 M² CCES", "date": "23/04/2025", "loc": "Commune de El Achour, W-Alger", "daira": "El Achour", "tel": ""}, {"id": 26, "prom": "ZAOUI SID CHIKH MOHAMMED", "proj": "14 LOGTS", "date": "16/04/2025", "loc": "Lieu-dit « OULED BELHADJ », Section N° 01, îlot 355", "daira": "Saoula", "tel": "029 82 58 48"}, {"id": 27, "prom": "EPIC REGIE FONCIERE DE LA VILLE D'ALGER RFVA", "proj": "40 LOGTS", "date": "14/04/2025", "loc": "(progrm 360 LPA) Lieu-dit Ali Amrane 03, îlots 1737 et 1739, Section 03", "daira": "Bordj El Kiffan", "tel": "021 63 86 53 / 023 50 78 73"}, {"id": 28, "prom": "SARL PROMOTION IMMOBILIERE EL NABILE", "proj": "18 LOGTS ET 324,74 M² CCES", "date": "13/04/2025", "loc": "Îlot N° 1210, Section 03", "daira": "Draria", "tel": ""}, {"id": 29, "prom": "SARL TENSIMMO", "proj": "12 LOGTS ET 189,84 M² CCES", "date": "25/02/2025", "loc": "Hai Ben Haddadi Daid, Section 24, îlot 45", "daira": "Chéraga", "tel": ""}, {"id": 30, "prom": "SARL ETARKIA EL AKARIA YASMINE", "proj": "25 LOGTS", "date": "19/02/2025", "loc": "Îlot N° 17, Section 04", "daira": "Chéraga", "tel": ""}, {"id": 31, "prom": "SARL PROMOTION IMMOBILIERE BATI ASRI", "proj": "17 LOGTS", "date": "17/02/2025", "loc": "Lieu-dit « ROUTE DE ZOUAOUA », Section 25, îlot N° 31", "daira": "Chéraga", "tel": "024 91 33 57"}, {"id": 32, "prom": "SARL PROMO G", "proj": "14 LOGTS", "date": "30/01/2025", "loc": "Îlot 703, Section 04, lieu-dit Sidi Slimane", "daira": "Khraïssia", "tel": ""}, {"id": 33, "prom": "SARL PROMO HAOUARI ET FILS", "proj": "23 LOGTS", "date": "02/01/2025", "loc": "Section 11, îlot 33, Houche Kaouche, rue Djenad Abderrahmane", "daira": "Dely Ibrahim", "tel": "021 79 96 94"}, {"id": 34, "prom": "EPE SPA DELY PRO", "proj": "36 LOGTS ET 1 345,70 M² CCES", "date": "02/01/2025", "loc": "Cité 1200 Logements, Section 03, îlot N° 464", "daira": "Bab Ezzouar", "tel": "021 60 69 43"}, {"id": 35, "prom": "SARL TENSIMMO", "proj": "16 LOGTS ET 120,91 M² CCES", "date": "02/01/2025", "loc": "Lieu-dit 49 Route Ouled Fayet, Section 37, îlot 156", "daira": "Chéraga", "tel": ""}, {"id": 36, "prom": "SARL PROMOTION IMMOBILIERE PARADOXE", "proj": "22 LOGTS ET 410,19 M² CCES", "date": "09/12/2024", "loc": "Rif Semar, îlot 2127, Section 01", "daira": "Birkhadem", "tel": "020 07 56 70"}, {"id": 37, "prom": "BENDAOUD HENIA", "proj": "28 LOGTS", "date": "28/11/2024", "loc": "Lieu-dit « 69 RUE DJENANE BENDANOUNE », Section 41, îlot N° 39", "daira": "Hussein Dey", "tel": ""}, {"id": 38, "prom": "BENNABI AMIN", "proj": "35 LOGTS ET 1 053,98 M² CCES", "date": "19/11/2024", "loc": "Îlot 568, Section 02", "daira": "Souidania", "tel": ""}, {"id": 39, "prom": "SARL STE PROMOTION IMMOBILIERE HAMOUD", "proj": "35 LOGTS ET 1 053,98 M² CCES", "date": "19/11/2024", "loc": "Lot N° 01, îlot N° 567, Section 02", "daira": "Souidania", "tel": "021 35 31 31"}, {"id": 40, "prom": "ROUANE KHIER", "proj": "27 LOGTS ET 513,33 M² CCES", "date": "07/11/2024", "loc": "Boulevard 1er Novembre N° 64, Section 16, îlot N° 72", "daira": "Rouïba", "tel": "024 95 12 40"}, {"id": 41, "prom": "EURL HARMONY CONCEPT BUILD", "proj": "25 LOGTS", "date": "23/10/2024", "loc": "05 Route de Mahelma, Section 13, îlot 109", "daira": "Mahelma", "tel": ""}, {"id": 42, "prom": "HADID OUAMER", "proj": "8 LOGTS", "date": "21/10/2024", "loc": "Commune de Chéraga, W-Alger", "daira": "Chéraga", "tel": ""}, {"id": 43, "prom": "BENNABI AMRANE", "proj": "66 LOGTS ET 941,73 M² CCES", "date": "03/09/2024", "loc": "Îlot N° 128, Section 02", "daira": "Chéraga", "tel": "021 66 58 16"}, {"id": 44, "prom": "TAMAOUST AISSAM", "proj": "20 LOGTS", "date": "29/08/2024", "loc": "Commune de Reghaïa, W-Alger", "daira": "Reghaïa", "tel": ""}, {"id": 45, "prom": "SARL BELLE ROSE PROMOTION IMMOBILIERE", "proj": "42 LOGTS", "date": "27/08/2024", "loc": "Route de Seballa N° 14, îlot 1730, Section 02", "daira": "Draria", "tel": ""}, {"id": 46, "prom": "EURL PROMOTION IMMOBILIERE LA NOUVELLE ADRESSE", "proj": "28 LOGTS ET 636,94 M² CCES", "date": "28/04/2024", "loc": "Lot « A », lieu-dit Frais Vallon", "daira": "Bouzareah", "tel": ""}, {"id": 47, "prom": "EURL FERKOUSSE AKRAM LITARKIA EL AKARIA", "proj": "8 LOGTS", "date": "07/04/2024", "loc": "Hai Meridja Swaih, Section 02, îlot 166", "daira": "Saoula", "tel": ""}, {"id": 48, "prom": "SARL HADDAK PROMOTION", "proj": "20 LOGTS ET 107,33 M² CCES", "date": "02/04/2024", "loc": "Lieu-dit « ROUTE DE KAOUCH », îlot N° 53, Section 44", "daira": "Chéraga", "tel": ""}, {"id": 49, "prom": "EURL VERT TEC", "proj": "31 LOGTS", "date": "03/03/2024", "loc": "Lieu-dit Ain Naadja Nord, Section 01, îlots (16,17)", "daira": "Djasr Kasentina", "tel": "021 87 11 67 / 044 07 61 90"}, {"id": 50, "prom": "BAHFIR ABDELMALEK", "proj": "23 LOGTS ET 645,15 M² CCES", "date": "27/02/2024", "loc": "Lieu-dit « GRANDE FORET », zone urbaine multifonctionnelle, Section 03, îlot 1190", "daira": "Reghaïa", "tel": ""}, {"id": 51, "prom": "OPGI TIPAZA", "proj": "16 LOGTS", "date": "23/01/2024", "loc": "Îlot 935 n° 05", "daira": "Zéralda", "tel": "024 37 62 45"}, {"id": 52, "prom": "OPGI TIPAZA", "proj": "73 LOGTS", "date": "23/01/2024", "loc": "Lieu-dit Sidi Menif, îlot 930 n° 05", "daira": "Zéralda", "tel": "024 37 62 45"}, {"id": 53, "prom": "BOUKENDOUL MAHMOUD", "proj": "10 LOGTS", "date": "11/12/2023", "loc": "Lot N° 05", "daira": "Raïs Hamidou", "tel": ""}, {"id": 54, "prom": "EPIC REGIE FONCIERE DE LA VILLE D'ALGER RFVA", "proj": "45 LOGTS ET 350,15 M² CCES", "date": "27/11/2023", "loc": "Zone administrative, îlots 365 et 366, Section 02", "daira": "Ouled Fayet", "tel": "021 63 86 53 / 023 50 78 73"}, {"id": 55, "prom": "SARL MTH IMMOBILIER", "proj": "77 LOGTS", "date": "10/10/2023", "loc": "Îlot 122, Section 02, Les Dunes", "daira": "Chéraga", "tel": ""}, {"id": 56, "prom": "EURL PRI MOC", "proj": "199 LOGTS", "date": "10/10/2023", "loc": "Îlot N° 1889, Section 01", "daira": "Djasr Kasentina", "tel": "034 80 27 14"}, {"id": 57, "prom": "SARL BRINDJ BATI", "proj": "26 LOGTS", "date": "08/10/2023", "loc": "Avenue Houari Boumedien N° 20, commune Bordj El Bahri", "daira": "Bordj El Bahri", "tel": ""}, {"id": 58, "prom": "GUESMIA MOHAMED", "proj": "18 LOGTS", "date": "08/08/2023", "loc": "Résidence Belle-Vue, sise 166 bis, lieu-dit « AVENUE ZIAR ABDELKADER »", "daira": "Bologhine", "tel": "036 46 51 83"}, {"id": 59, "prom": "EURL HYPRO PROMOTION IMMOBILIERE", "proj": "10 LOGTS ET 161,95 M² CCES", "date": "03/08/2023", "loc": "Rue Servantes, Section 22, îlot 33", "daira": "Belouizdad", "tel": ""}];
+const KEY = 'fgcmpi_alger_v1';
+const STATUSES = [
+  {k:'todo',  label:'À contacter',    c:'#6E7C7A'},
+  {k:'called',label:'Contacté',       c:'#E2A33C'},
+  {k:'noans', label:'Pas de réponse', c:'#9AA5A3'},
+  {k:'rdv',   label:'RDV pris',       c:'#1E8A5A'},
+  {k:'no',    label:'Pas intéressé',  c:'#C9523B'},
+];
+const sMap = Object.fromEntries(STATUSES.map(s=>[s.k,s]));
+let state = load();
+let filter = 'all', query = '';
+
+function load(){ try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}} }
+function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+function rec(id){ return state[id] || (state[id]={done:false,status:'todo',note:''}); }
+function hasPhone(d){ return d.tel && d.tel.trim()!==''; }
+
+const $ = s=>document.querySelector(s);
+const list=$('#list');
+
+function matches(d){
+  const r=rec(d.id);
+  if(filter==='phone'&&!hasPhone(d))return false;
+  if(filter==='nophone'&&hasPhone(d))return false;
+  if(filter==='todo'&&r.done)return false;
+  if(filter==='done'&&!r.done)return false;
+  if(query){
+    const h=(d.prom+' '+d.proj+' '+d.daira+' '+d.loc+' '+d.tel).toLowerCase();
+    if(!h.includes(query))return false;
+  }
+  return true;
+}
+
+function render(){
+  const rows=DATA.filter(matches);
+  list.innerHTML='';
+  if(!rows.length){
+    list.innerHTML='<div class="empty">Aucun promoteur ne correspond.<br>Essaie un autre filtre ou efface la recherche.</div>';
+  }
+  for(const d of rows){
+    const r=rec(d.id), ph=hasPhone(d), st=sMap[r.status]||sMap.todo;
+    const card=document.createElement('div');
+    card.className='card'+(ph?'':' nophone')+(r.done?' done':'');
+    const tels=ph?d.tel.split('/').map(t=>t.trim()):[];
+    const telHref=ph?('tel:'+tels[0].replace(/\s/g,'')):'';
+    card.innerHTML=`
+      <div class="top">
+        <div class="num">${d.id}</div>
+        <div class="head">
+          <div class="prom">${esc(d.prom)}</div>
+          <div class="proj">${esc(d.proj)}</div>
+        </div>
+        <button class="check" aria-label="Marquer traité">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </button>
+      </div>
+      <div class="meta"><span><b>${esc(d.daira)}</b></span><span>${esc(d.date)}</span></div>
+      <div class="loc">${esc(d.loc)}</div>
+      <div class="row2">
+        ${ph
+          ? `<a class="tel${tels.length>1?' multi':''}" href="${telHref}"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg>${tels.length>1?tels.length+' numéros':esc(tels[0])}</a>`
+          : `<div class="notel">Pas de numéro</div>`}
+        <button class="stat" data-cycle><span class="dot" style="background:${st.c}"></span>${st.label}</button>
+      </div>
+      <textarea class="note" rows="1" placeholder="Note (interlocuteur, suite à donner…)">${esc(r.note)}</textarea>
+    `;
+    card.querySelector('.check').onclick=()=>{r.done=!r.done;save();render();updateBar();};
+    card.querySelector('[data-cycle]').onclick=()=>{
+      const i=STATUSES.findIndex(s=>s.k===r.status);
+      r.status=STATUSES[(i+1)%STATUSES.length].k;
+      if(r.status!=='todo')r.done=r.done; save();render();
+    };
+    const ta=card.querySelector('.note');
+    autosize(ta);
+    ta.addEventListener('input',()=>{r.note=ta.value;autosize(ta);save();});
+    list.appendChild(card);
+  }
+}
+
+function counts(){
+  let phone=0,nophone=0,done=0;
+  for(const d of DATA){ hasPhone(d)?phone++:nophone++; if(rec(d.id).done)done++; }
+  $('#c-all').textContent=DATA.length;
+  $('#c-phone').textContent=phone;
+  $('#c-nophone').textContent=nophone;
+  $('#c-done').textContent=done;
+  $('#c-todo').textContent=DATA.length-done;
+  return {phone,nophone,done};
+}
+function updateBar(){
+  const c=counts(), pct=Math.round(c.done/DATA.length*100);
+  $('#fill').style.width=pct+'%';
+  $('#ptxt').textContent=`${c.done} / ${DATA.length} traités`;
+  $('#pno').textContent=`${c.nophone} sans numéro`;
+}
+
+function autosize(t){t.style.height='auto';t.style.height=Math.max(t.scrollHeight,20)+'px';}
+function esc(s){return (s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+
+$('#q').addEventListener('input',e=>{query=e.target.value.toLowerCase().trim();render();});
+document.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{
+  filter=ch.dataset.f;
+  document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===ch));
+  render();
+});
+$('#reset').onclick=()=>{
+  if(confirm('Effacer toutes tes coches, statuts et notes ?')){
+    state={};save();render();updateBar();
+  }
+};
+
+render();updateBar();
+</script>
+</body>
+</html>
